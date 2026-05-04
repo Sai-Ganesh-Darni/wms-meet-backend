@@ -39,8 +39,8 @@ app.get("/health", (_, res) => {
  * @param {*} res 
  * @returns {Object} JSON response containing the meeting ID, host link, and participant link.
  */
-app.post("/meeting/create", (_, res) => {
-  const meeting = createMeeting();
+app.post("/meeting/create", async (_, res) => {
+  const meeting = await createMeeting();
   const hostLink = `/meet/${meeting.meetingId}?host=true`;
   const participantLink = `/meet/${meeting.meetingId}`;
 

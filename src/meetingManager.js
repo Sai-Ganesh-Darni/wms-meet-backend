@@ -1,3 +1,5 @@
+const meetingService = require('./services/meetingService');
+
 const meetings = new Map();
 
 /**
@@ -46,7 +48,7 @@ function serializeMeeting(meeting) {
  * Creates a new meeting with a unique meeting ID and initializes its properties.
  * @returns {Object} The created meeting object.
  */
-function createMeeting() {
+async function createMeeting(hostId) {
   const meetingId = generateMeetingId();
   meetings.set(meetingId, {
     meetingId,
@@ -55,6 +57,11 @@ function createMeeting() {
     presenterId: null,
     participants: new Map(),
   });
+  try {
+    await meetingService.createMeeting(hostId, meetingId);
+  } catch (error) {
+    console.error("Failed to save meeting to database:", error);
+  }
   console.log('Created Meeting: ', meetingId);
   return meetings.get(meetingId);
 }
